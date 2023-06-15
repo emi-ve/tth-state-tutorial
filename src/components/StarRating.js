@@ -7,38 +7,35 @@ const StarRating = () => {
   // Write a function that returns 5 Star components
 
   const displayStars = () => {
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      // note: we are adding a key prop here to allow react to uniquely identify each
-      // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+    let stars = [];
+    const maxRating = 5;
+    for (let i = 0; i < maxRating; i++) {
       stars.push(
         <Star
+          isSelected={courseRating > i}
+          setRating={() => handleSetRating(i + 1)}
           key={i}
-          setRating={() => {
-            handleCourseRating(i + 1);
-          }}
         />
       );
     }
-
-    return <p>{stars}</p>;
+    return stars;
   };
 
   // Write an event handler that updates the courseRating state.
 
-  const handleCourseRating = (rating) => {
-    setCourseRating(rating);
+  const handleSetRating = (rating) => {
+    if (courseRating === rating) {
+      setCourseRating(0);
+    } else {
+      setCourseRating(rating);
+    }
   };
 
-  console.log(typeof courseRating);
+  console.log(courseRating);
 
   // Pass the function to a Star component via props
 
-  return (
-    <ul className="course--stars" onClick={handleCourseRating}>
-      {displayStars()}
-    </ul>
-  );
+  return <ul className="course--stars">{displayStars()}</ul>;
 };
 
 export default StarRating;
